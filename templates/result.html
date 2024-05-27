@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prediction Result</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              banner: "#f8f8f8",
+            },
+            height: {
+              banner: "80vh",
+              card: "360px",
+              circle: "180px",
+            },
+            width: {
+              card: "320px",
+              circle: "180px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="relative">
+    <nav
+      class="h-12 fixed z-20 top-0 left-0 px-12 bg-black/75 backdrop-blur-2xl flex w-full"
+    >
+      <div
+        class="flex m-auto justify-between w-full max-w-5xl text-xs text-white tracking-tighter"
+      >
+        <div class="logo">
+          <a href="/">Logo</a>
+        </div>
+
+        <ul class="flex gap-10">
+          <li><a href="/">Home</a></li>
+          <li><a href="/aboutus">About</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="layout relative min-h-screen flex flex-col gap-1">
+      <div
+        class="h-banner bg-black w-full flex justify-center pt-52 relative overflow-hidden"
+      >
+        <img
+          src="../static/iPhone-15-Pro.png"
+          alt=""
+          class="absolute bottom-52 translate-y-1/2 right-1/4 max-w-4xl w-full"
+        />
+        <h1 class="text-7xl tracking-tight relative text-white/75">
+          Prediction Result
+        </h1>
+      </div>
+      <div class="flex bg-black">
+        <div
+          class="max-w-7xl w-full h-banner m-auto px-12 mt-32 mb-12 flex flex-col gap-12 relative"
+        >
+          <div class="flex justify-between items-center">
+            <div class="flex gap-16 items-center">
+              <div
+                class="rounded-full flex justify-center items-center w-circle h-circle border-2 {% if value == 0 %} border-green-400 {% elif value == 1 %} border-blue-400 {% else %} border-purple-600 {% endif %}"
+              >
+                <p
+                  class="text-xl tracking-tight {% if value == 0 %} text-green-400 {% elif value == 1 %} text-blue-400 {% else %} text-purple-600 {% endif %}"
+                >
+                  {% if value == 0 %} Budget Friendly {% elif value == 1 %}
+                  Affordable {% else %} High End {% endif %}
+                </p>
+              </div>
+
+              <p class="text-lg text-white/50 w-96 text-sm">
+                {% if value == 0 %} The Budget Friendly mobile devices are great
+                for when you have to buy for kids or old people. It would be a
+                nice way to kick off your journey into the mobile phone world.
+                {% elif value == 1 %} The Affordable Price is great for when you
+                have to read more than just emails. Content Creators generally
+                buy devices within this range. {% else %} The High End Phones
+                can be used for e-sports as well as high extensive works. From
+                here on the phones become gadgets of work rather than of
+                convenience. These types of phones will be natural choice for
+                people with more than just emails. {% endif %}
+              </p>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <div
+                class="px-6 py-8 rounded-2xl w-card h-card {% if value == 0 %} bg-green-500 {% elif value == 1 %} bg-blue-500 {% else %} bg-purple-500 {% endif %}"
+              >
+                <h2 class="text-2xl tracking-tight font-medium text-white">
+                  {% if value == 0 %} Budget Friendly {% elif value == 1 %}
+                  Affordable {% else %} High End {% endif %}
+                </h2>
+                <p class="text-xl tracking-tight text-white">
+                  {% if value == 0 %} Nu 20,000 and below {% elif value == 1 %}
+                  Nu. 20,000 to Nu. 50,000 {% else %} Nu. 50,000 to Nu. 80,000
+                  {% endif %}
+                </p>
+
+                <p class="text-sm pt-4 tracking-tight text-white/90">
+                  {% if value == 0 %} The Budget Friendly mobile devices are
+                  great for when you have to buy for kids or old people. It
+                  would be a nice way to kick off your journey into the mobile
+                  phone world. {% elif value == 1 %} The Affordable Price is
+                  great for when you have to read more than just emails. Content
+                  Creators generally buy devices within this range {% else %}
+                  The High End Phones can be used for e-sports as well as high
+                  extensive works. From here on the phones become gadgets of
+                  work rather than of convenience. These types of phones will be
+                  natural choice for people with more than just emails. {% endif
+                  %}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

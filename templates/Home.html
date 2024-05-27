@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Price Prediction</title>
+    <script
+      src="https://kit.fontawesome.com/6a73c1bfd5.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              banner: "#f8f8f8",
+            },
+            height: {
+              banner: "80vh",
+            },
+          },
+        },
+      };
+    </script>
+
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body class="relative">
+    <nav
+      class="h-12 fixed z-20 top-0 left-0 px-12 bg-black/75 backdrop-blur-2xl flex w-full"
+    >
+      <div
+        class="flex m-auto justify-between w-full max-w-5xl text-xs text-white tracking-tighter"
+      >
+        <div class="logo">
+          <a href="/">Logo</a>
+        </div>
+
+        <ul class="flex gap-10">
+          <li><a href="/">Home</a></li>
+          <li><a href="/aboutus">About</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="layout min-h-screen flex flex-col gap-1">
+      <div class="h-banner bg-banner w-full flex justify-center pt-52 relative">
+        <img
+          src="../static/iphone_selection.png"
+          alt=""
+          class="absolute bottom-0 left-1/2 -translate-x-1/2 max-w-2xl w-full"
+        />
+        <div class="text-center relative">
+          <h1 class="text-8xl font-semibold tracking-tighter">Mobile</h1>
+          <p class="text-lg tracking-tight">
+            Got a problem with your budget. You have us!
+          </p>
+        </div>
+      </div>
+      <div class="max-w-5xl w-full m-auto mt-32 mb-12">
+        <h3 class="font-semibold text-3xl tracking-tighter">Parameters</h3>
+        <form
+          action="/predict"
+          method="post"
+          class="flex flex-col justify-end items-end gap-10 pt-12"
+        >
+          <div class="flex flex-wrap justify-between gap-12 w-full">
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Battery Power</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-green-600 px-2 py-1"
+                >
+                  <i class="fa-solid fa-battery-three-quarters text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <select
+                    class="w-2/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    onchange="selectBatteryPower(this.value)"
+                  >
+                    <option value="3000">3000 mAh</option>
+                    <option value="4000">4000 mAh</option>
+                    <option value="5000">5000 mAh</option>
+                    <option value="6000">6000 mAh</option>
+                    <option value="7000">7000 mAh</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input
+                    type="number"
+                    name="battery_power"
+                    id="battery_power_input"
+                    placeholder="Battery Power"
+                    class="w-1/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    required
+                    step="0.01"
+                    value="3000"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Bluetooth</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-10 h-10 rounded-lg bg-blue-600 px-2 py-1"
+                >
+                  <i class="fa-brands fa-bluetooth text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <button
+                    type="button"
+                    value="1"
+                    class="bluetooth-button flex-1 py-2 border outline-blue-500 rounded-md bg-white text-gray-700 hover:bg-gray-100 active:border-blue-500"
+                    onclick="setBluetooth(this)"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    value="0"
+                    class="bluetooth-button flex-1 py-2 border outline-blue-500 rounded-md bg-white text-gray-700 hover:bg-gray-100 active:border-blue-500"
+                    onclick="setBluetooth(this)"
+                  >
+                    No
+                  </button>
+                  <input
+                    type="hidden"
+                    name="blue"
+                    id="blue"
+                    value=""
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Clock Speed</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-black px-2 py-1"
+                >
+                  <i class="fa-solid fa-clock text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <select
+                    class="w-2/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    onchange="selectClockSpeed(this.value)"
+                  >
+                    <option value="1.8">1.8 GHz</option>
+                    <option value="2.0">2.0 GHz</option>
+                    <option value="2.2">2.2 GHz</option>
+                    <option value="2.4">2.4 GHz</option>
+                    <option value="2.6">2.6 GHz</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input
+                    type="number"
+                    value="1.8"
+                    name="clock_speed"
+                    id="clock_speed_input"
+                    step="0.1"
+                    placeholder="Clock Speed"
+                    class="w-1/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight">Dual SIM</label>
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-green-600 px-2 py-1"
+                >
+                  <i class="fa-solid fa-sim-card text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <button
+                    type="button"
+                    value="1"
+                    class="dual-sim flex-1 py-2 border outline-green-500 rounded-md bg-white text-gray-700 hover:bg-gray-100 active:border-green-500"
+                    onclick="setDualSim(this)"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    value="0"
+                    class="dual-sim flex-1 py-2 border outline-green-500 rounded-md bg-white text-gray-700 hover:bg-gray-100 active:border-green-500"
+                    onclick="setDualSim(this)"
+                  >
+                    No
+                  </button>
+                  <input
+                    type="hidden"
+                    name="dual_sim"
+                    id="dual_sim"
+                    value=""
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Front Camera MP</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-pink-400 px-2 py-1"
+                >
+                  <i class="fa-solid fa-camera text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <select
+                    class="w-2/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    onchange="selectFrontCameraMP(this.value)"
+                  >
+                    <option value="5">5 MP</option>
+                    <option value="8">8 MP</option>
+                    <option value="12">12 MP</option>
+                    <option value="16">16 MP</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input
+                    type="number"
+                    value="5"
+                    name="fc"
+                    id="fc_input"
+                    placeholder="Front MP"
+                    class="w-1/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight">4G</label>
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-blue-600 px-2 py-1"
+                >
+                  <i class="fa-solid fa-signal-5 text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <button
+                    type="button"
+                    value="1"
+                    class="fourGButton flex-1 py-2 border outline-blue-500 rounded-md bg-white text-gray-700 hover:bg-gray-100 active:border-blue-500"
+                    onclick="set4G(this)"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    value="0"
+                    class="fourGButton flex-1 py-2 border outline-blue-500 rounded-md bg-white text-gray-700 hover:bg-gray-100 active:border-blue-500"
+                    onclick="set4G(this)"
+                  >
+                    No
+                  </button>
+                  <input
+                    type="hidden"
+                    name="four_g"
+                    id="four_g"
+                    value=""
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Internal Memory (GB)</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-black px-2 py-1"
+                >
+                  <i class="fa-solid fa-memory text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <select
+                    class="w-2/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    onchange="selectInternalMemory(this.value)"
+                  >
+                    <option value="16">16 GB</option>
+                    <option value="32">32 GB</option>
+                    <option value="64">64 GB</option>
+                    <option value="128">128 GB</option>
+                    <option value="256">256 GB</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input
+                    type="number"
+                    value="16"
+                    name="int_memory"
+                    id="int_memory_input"
+                    placeholder="Storage (GB)"
+                    class="w-1/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Mobile Depth (cm)</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-gray-200 px-2 py-1"
+                >
+                  <i class="fa-solid fa-arrows-up-down text-black"></i>
+                </div>
+                <input
+                  type="number"
+                  name="m_dep"
+                  step="0.1"
+                  placeholder="Enter the Mobile Depth (cm)"
+                  class="w-full px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Mobile Weight (g)</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-gray-200 px-2 py-1"
+                >
+                  <i class="fa-solid fa-weight-hanging text-black"></i>
+                </div>
+                <input
+                  type="number"
+                  name="mobile_wt"
+                  placeholder="Enter the Mobile Weight (g)"
+                  class="w-full px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Number of Cores</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-black px-2 py-1"
+                >
+                  <i class="fa-brands fa-codepen text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <select
+                    class="w-2/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    onchange="selectNumberOfCores(this.value)"
+                  >
+                    <option value="1">Single Core</option>
+                    <option value="2">Dual Core</option>
+                    <option value="4">Quad Core</option>
+                    <option value="6">Hexa Core</option>
+                    <option value="8">Octa Core</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input
+                    type="number"
+                    value="1"
+                    name="n_cores"
+                    id="n_cores_input"
+                    placeholder="Number of Cores"
+                    class="w-1/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Primary Camera MP</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-pink-400 px-2 py-1"
+                >
+                  <i class="fa-solid fa-camera text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <select
+                    class="w-2/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    onchange="selectPrimaryCameraMP(this.value)"
+                  >
+                    <option value="8">8 MP</option>
+                    <option value="12">12 MP</option>
+                    <option value="16">16 MP</option>
+                    <option value="20">20 MP</option>
+                    <option value="32">32 MP</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input
+                    type="number"
+                    value="8"
+                    name="pc"
+                    id="pc_input"
+                    placeholder="Primary MP"
+                    class="w-1/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Pixel Resolution Height</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-gray-200 px-2 py-1"
+                >
+                  <i class="fa-solid fa-ruler-vertical text-black"></i>
+                </div>
+                <input
+                  type="number"
+                  name="px_height"
+                  placeholder="Enter the Pixel Resolution Height"
+                  class="w-full px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Pixel Resolution Width</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-gray-200 px-2 py-1"
+                >
+                  <i class="fa-solid fa-ruler-horizontal text-black"></i>
+                </div>
+                <input
+                  type="number"
+                  name="px_width"
+                  placeholder="Enter the Pixel Resolution Width"
+                  class="w-full px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight">RAM (MB)</label>
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-black px-2 py-1"
+                >
+                  <i class="fa-solid fa-memory text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <select
+                    class="w-2/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    onchange="selectRAM(this.value)"
+                  >
+                    <option value="512">512 MB</option>
+                    <option value="1024">1 GB (1024 MB)</option>
+                    <option value="2048">2 GB (2048 MB)</option>
+                    <option value="3072">3 GB (3072 MB)</option>
+                    <option value="4096">4 GB (4096 MB)</option>
+                    <option value="8192">8 GB (8192 MB)</option>
+                    <option value="16384">16 GB (16384 MB)</option>
+                    <option value="32768">32 GB (32768 MB)</option>
+                    <option value="65536">64 GB (65536 MB)</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <input
+                    type="number"
+                    value="512"
+                    name="ram"
+                    id="ram_input"
+                    placeholder="RAM (MB)"
+                    class="w-1/3 px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Screen Height (cm)</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-gray-200 px-2 py-1"
+                >
+                  <i class="fa-solid fa-desktop text-black"></i>
+                </div>
+                <input
+                  type="number"
+                  name="sc_h"
+                  step="0.1"
+                  placeholder="Enter the Screen Height (cm)"
+                  class="w-full px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Screen Width (cm)</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-gray-200 px-2 py-1"
+                >
+                  <i class="fa-solid fa-desktop text-black"></i>
+                </div>
+                <input
+                  type="number"
+                  name="sc_w"
+                  step="0.1"
+                  placeholder="Enter the Screen Width (cm)"
+                  class="w-full px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Talk Time (hours)</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-green-600 px-2 py-1"
+                >
+                  <i class="fa-solid fa-phone-alt text-white"></i>
+                </div>
+                <input
+                  type="number"
+                  name="talk_time"
+                  placeholder="Enter the Talk Time (hours)"
+                  class="w-full px-3 py-2 border rounded-md focus:ring-none focus:outline-blue-500"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight">3G</label>
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-blue-600 px-2 py-1"
+                >
+                  <i class="fa-solid fa-signal-5 text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <button
+                    type="button"
+                    value="1"
+                    class="threeGButton flex-1 py-2 border outline-blue-500 rounded-md bg-white text-gray-700 hover:bg-gray-100 active:border-blue-500"
+                    onclick="set3G(this)"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    value="0"
+                    class="threeGButton flex-1 py-2 border outline-blue-500 rounded-md bg-white text-gray-700 hover:bg-gray-100 active:border-blue-500"
+                    onclick="set3G(this)"
+                  >
+                    No
+                  </button>
+                  <input
+                    type="hidden"
+                    name="three_g"
+                    id="three_g"
+                    value=""
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight"
+                >Touch Screen</label
+              >
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-black px-2 py-1"
+                >
+                  <i class="fa-solid fa-hand-point-up text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <button
+                    type="button"
+                    value="1"
+                    class="touch-screen-button flex-1 py-2 border outline-black rounded-md bg-white text-gray-700 hover:bg-gray-100 active:border-black"
+                    onclick="setTouchScreen(this)"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    value="0"
+                    class="touch-screen-button flex-1 py-2 border outline-black rounded-md bg-white text-gray-700 hover:bg-gray-100 active:border-black"
+                    onclick="setTouchScreen(this)"
+                  >
+                    No
+                  </button>
+                  <input
+                    type="hidden"
+                    name="touch_screen"
+                    id="touch_screen"
+                    value=""
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="w-2/5 flex flex-col text-sm gap-2">
+              <label class="block text-gray-700 tracking-tight">WiFi</label>
+              <div class="flex gap-2 justify-center items-center">
+                <div
+                  class="flex justify-center items-center w-9 h-9 rounded-lg bg-blue-600 px-2 py-1"
+                >
+                  <i class="fa-solid fa-wifi text-white"></i>
+                </div>
+                <div class="flex flex-1 gap-2 justify-center items-center">
+                  <button
+                    type="button"
+                    value="1"
+                    class="wifi-button flex-1 py-2 border outline-blue-500 rounded-md bg-white text-gray-700 hover:bg-gray-100 active:border-blue-500"
+                    onclick="setWiFi(this)"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    value="0"
+                    class="wifi-button flex-1 py-2 border outline-blue-500 rounded-md bg-white text-gray-700 hover:bg-gray-100 active:border-blue-500"
+                    onclick="setWiFi(this)"
+                  >
+                    No
+                  </button>
+                  <input
+                    type="hidden"
+                    name="wifi"
+                    id="wifi"
+                    value=""
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button
+              type="submit"
+              class="bg-blue-600 text-white text-sm px-8 py-2 rounded-full"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="flex footer h-banner bg-black"></div>
+    </div>
+
+    <script src="./static/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>About Us</title>
+    <script
+      src="https://kit.fontawesome.com/6a73c1bfd5.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              banner: "#f8f8f8",
+            },
+            height: {
+              banner: "80vh",
+            },
+          },
+        },
+      };
+    </script>
+
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body class="relative">
+    <nav
+      class="h-12 fixed z-20 top-0 left-0 px-12 bg-black/75 backdrop-blur-2xl flex w-full"
+    >
+      <div
+        class="flex m-auto justify-between w-full max-w-5xl text-xs text-white tracking-tighter"
+      >
+        <div class="logo">
+          <a href="/">Logo</a>
+        </div>
+
+        <ul class="flex gap-10">
+          <li><a href="/">Home</a></li>
+          <li><a href="/aboutus">About</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="layout min-h-screen flex flex-col gap-1">
+      <div class="h-banner bg-banner w-full flex justify-center pt-52 relative">
+        <img
+          src="../static/iphone_selection.png"
+          alt=""
+          class="absolute bottom-0 left-1/2 -translate-x-1/2 max-w-2xl w-full"
+        />
+        <div class="text-center relative">
+          <h1 class="text-8xl font-semibold tracking-tighter">About Us</h1>
+          <p class="text-lg tracking-tight">
+            Get to know about us and our project
+          </p>
+        </div>
+      </div>
+      <div class="max-w-5xl w-full m-auto mt-32 mb-12">
+        <h3 class="font-semibold text-3xl tracking-tighter">Coming soon...</h3>
+      </div>
+      <div class="flex footer h-banner bg-black"></div>
+    </div>
+
+    <script src="./static/app.js"></script>
+  </body>
+</html>
